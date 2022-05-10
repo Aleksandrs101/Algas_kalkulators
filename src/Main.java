@@ -1,7 +1,7 @@
 import java.util.*;
 public class Main {
     public static void main(String[] args)
-    {
+    {//testēju git
         System.out.println("Hello, we can help you calculate your salary");
         Scanner sc= new Scanner(System.in);
         System.out.print("bruto alga ");
