@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 import static java.lang.Double.isNaN;
+import static java.lang.StringUTF16.length;
 
 public class prototips1 extends JFrame{
     private JPanel panelMain;
@@ -55,11 +56,9 @@ public class prototips1 extends JFrame{
                 double neapliekamaisMin = Double.parseDouble(txtNeapliekmin.getText());
                 double atvieglojumsInv =Double.parseDouble(txtInvalid.getText());
                 String A = txtNeapliekmin.getText();
-                if (!isNaN(brutoAlga) == true) {
+                    if (!isNaN(brutoAlga) == true) {
                     if (!isNaN(neapliekamaisMin) == true) {
                         if (!isNaN(atvieglojumsInv) == true) {
-
-
                             if (neapliekamaisMin >= 0 && neapliekamaisMin <= 350) {
                                 if (nodoklaGramata == true) {
                                     if (brutoAlga <= 1667) {
@@ -78,16 +77,16 @@ public class prototips1 extends JFrame{
                             } else {
                                 JOptionPane.showMessageDialog(null, "Lūdzu ievadiet neapliekamo minimumu no 0 līdz 350");
                             }
-                        }
-                        else{
+                        } else if ((!isNaN(atvieglojumsInv) == false))
+                        {
                             JOptionPane.showMessageDialog(null, "Lūdzu ievadiet skaitli");
                         }
-                    }
-                    else{
+                    } else if ((!isNaN(neapliekamaisMin) == false))
+                    {
                         JOptionPane.showMessageDialog(null, "Lūdzu ievadiet skaitli");
                     }
-                }
-                else{
+                } else if ((!isNaN(brutoAlga) == false))
+                {
                     JOptionPane.showMessageDialog(null, "Lūdzu ievadiet skaitli");
                 }
             }
