@@ -1,13 +1,17 @@
 import jdk.internal.access.JavaNetHttpCookieAccess;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 import static java.lang.Double.isNaN;
-import static java.lang.StringUTF16.length;
+
 
 public class prototips1 extends JFrame{
     private JPanel panelMain;
@@ -48,24 +52,35 @@ public class prototips1 extends JFrame{
         btnClick.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-
+                double neapliekamaisMinimums = 0;
+                double atvieglojumsInvalid = 0;
 
                 double brutoAlga =  Double.parseDouble(txtBruto.getText());
                 int apgSk = Integer.parseInt((String)apgSka.getSelectedItem());
-                double neapliekamaisMin = Double.parseDouble(txtNeapliekmin.getText());
-                double atvieglojumsInv =Double.parseDouble(txtInvalid.getText());
-                String A = txtNeapliekmin.getText();
-                    if (!isNaN(brutoAlga) == true) {
-                    if (!isNaN(neapliekamaisMin) == true) {
-                        if (!isNaN(atvieglojumsInv) == true) {
-                            if (neapliekamaisMin >= 0 && neapliekamaisMin <= 350) {
+                String neapliekamaisMin = (txtNeapliekmin.getText());
+                String atvieglojumsInv = (txtInvalid.getText());
+                if (neapliekamaisMin.isEmpty()){
+                     neapliekamaisMinimums = 0;
+                }
+                else {
+                    neapliekamaisMinimums = Double.parseDouble(txtNeapliekmin.getText());
+                }
+                if (atvieglojumsInv.isEmpty()){
+                    atvieglojumsInvalid = 0;
+                }
+                else {
+                    atvieglojumsInvalid = Double.parseDouble(txtNeapliekmin.getText());
+                }
+                if (brutoAlga>0){
+                    if (atvieglojumsInvalid>=0){
+                        if (neapliekamaisMinimums>=0) {
+                            if (neapliekamaisMinimums >= 0 && neapliekamaisMinimums <= 350) {
                                 if (nodoklaGramata == true) {
                                     if (brutoAlga <= 1667) {
-                                        neto = new BigDecimal(brutoAlga - (brutoAlga * 0.105) - ((1667 - (brutoAlga * 0.105) - (apgSk * 250) - neapliekamaisMin - atvieglojumsInv) * 0.2 + (brutoAlga - 1667) * 0.2)).setScale(2, RoundingMode.HALF_UP);
+                                        neto = new BigDecimal(brutoAlga - (brutoAlga * 0.105) - ((1667 - (brutoAlga * 0.105) - (apgSk * 250) - neapliekamaisMinimums - atvieglojumsInvalid) * 0.2 + (brutoAlga - 1667) * 0.2)).setScale(2, RoundingMode.HALF_UP);
                                         ;
-                            } else {
-                                        neto = new BigDecimal(brutoAlga - (brutoAlga * 0.105) - ((1667 - (brutoAlga * 0.105) - (apgSk * 250) - neapliekamaisMin - atvieglojumsInv) * 0.2 + (brutoAlga - 1667) * 0.23)).setScale(2, RoundingMode.HALF_UP);
+                                    } else {
+                                        neto = new BigDecimal(brutoAlga - (brutoAlga * 0.105) - ((1667 - (brutoAlga * 0.105) - (apgSk * 250) - neapliekamaisMinimums - atvieglojumsInvalid) * 0.2 + (brutoAlga - 1667) * 0.23)).setScale(2, RoundingMode.HALF_UP);
                                         ;
                                     }
                                 } else {
@@ -77,21 +92,62 @@ public class prototips1 extends JFrame{
                             } else {
                                 JOptionPane.showMessageDialog(null, "Lūdzu ievadiet neapliekamo minimumu no 0 līdz 350");
                             }
-                        } else if ((!isNaN(atvieglojumsInv) == false))
-                        {
-                            JOptionPane.showMessageDialog(null, "Lūdzu ievadiet skaitli");
                         }
-                    } else if ((!isNaN(neapliekamaisMin) == false))
-                    {
-                        JOptionPane.showMessageDialog(null, "Lūdzu ievadiet skaitli");
+                        else{
+                            JOptionPane.showMessageDialog(null, "Lūdzu ievadiet pozitīvus skaitļus");
+                        }
+
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Lūdzu ievadiet pozitīvus skaitļus");
                     }
-                } else if ((!isNaN(brutoAlga) == false))
-                {
-                    JOptionPane.showMessageDialog(null, "Lūdzu ievadiet skaitli");
+            }else {
+                    JOptionPane.showMessageDialog(null, "Lūdzu ievadiet pozitīvus skaitļus");
                 }
             }
         });
 
+        txtBruto.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                super.keyPressed(e);
+                char c = e.getKeyChar();
+                if(Character.isLetter(c)){
+                     txtBruto.setEditable((false));
+                     JOptionPane.showMessageDialog(null, "Lūdzu ievadiet pozitīvus skaitļus");
+                }else
+                {
+                    txtBruto.setEditable(true);
+                }
+            }
+        });
+        txtInvalid.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                super.keyPressed(e);
+                char b = e.getKeyChar();
+                if(Character.isLetter(b)){
+                    txtInvalid.setEditable((false));
+                    JOptionPane.showMessageDialog(null, "Lūdzu ievadiet pozitīvus skaitļus");
+                }else
+                {
+                    txtInvalid.setEditable(true);
+                }
+            }
+        });
+        txtNeapliekmin.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                super.keyPressed(e);
+                char d = e.getKeyChar();
+                if(Character.isLetter(d)){
+                    txtNeapliekmin.setEditable((false));
+                    JOptionPane.showMessageDialog(null, "Lūdzu ievadiet pozitīvus skaitļus");
+                }else
+                {
+                    txtNeapliekmin.setEditable(true);
+                }
+            }
+        });
     }
 
     public static void main(String[] args) {
